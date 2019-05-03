@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
+<%@page import="com.zubiri.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,24 +10,20 @@
 </head>
 <body>
 	<%
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		String oracleURL = "jdbc:mysql://localhost/football?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-
-		Connection conn = DriverManager.getConnection(oracleURL, "dw18", "dw18");
+	
 
 		if (request.getParameter("type").equals("players")) {
 			if (request.getParameter("submit") != null) {
-				PreparedStatement pst;
-				pst = conn.prepareStatement("insert into players values(?,?,?)");
-
-				pst.setString(1, request.getParameter("playerName"));
-				pst.setInt(2, Integer.parseInt(request.getParameter("age")));
-				pst.setString(3, request.getParameter("team"));
-
-				pst.executeUpdate();
-				String redirectURL = "show.jsp?type=players";
-				response.sendRedirect(redirectURL);
+				Player player = new Player(request.getParameter("playerName"),Integer.parseInt(request.getParameter("age")),request.getParameter("team"));
+				
+				if (player.insertPlayer(player.getName(), player.getAge(), player.getTeam())>0){
+					String name= player.getName();
+				%>
+				The player <%=name%> was correctly added.<br><br>
+				<a href="show.jsp?type=players">Show players list</a>
+				
+				<%
+				}
 			} else {
 	%>
 	<form action="insert.jsp" method="get">
@@ -37,19 +34,22 @@
 			type="submit" value="Insert" name="submit"><br>
 
 	</form>
+	
+
+	
 	<%
 		}
 		} else if (request.getParameter("type").equals("teams")) {
 			if (request.getParameter("submit") != null) {
-				PreparedStatement pst;
-				pst = conn.prepareStatement("insert into teams values(?,?)");
-
-				pst.setString(1, request.getParameter("teamName"));
-				pst.setString(2, request.getParameter("coach"));
-
-				pst.executeUpdate();
-				String redirectURL = "show.jsp?type=teams";
-				response.sendRedirect(redirectURL);
+				Team team= new Team(request.getParameter("name"),request.getParameter("coach"));
+				String teamName=team.getName();
+				if (team.insertTeam(team.getName(),team.getCoach())>0){
+					%>
+					The team <%=teamName %> was correctly added.<br><br>
+					<a href="show.jsp?type=teams">Show teams list</a>
+					<%
+				}
+			
 			} else {
 	%>
 	<form action="insert.jsp" method="get">
@@ -63,18 +63,9 @@
 		}
 		} else if (request.getParameter("type").equals("matches")) {
 			if (request.getParameter("submit") != null) {
-				PreparedStatement pst;
-				pst = conn.prepareStatement(
-						"insert into matches(local_team,local_goals,visitor_team,visitor_goals) values(?,?,?,?)");
-
-				pst.setString(1, request.getParameter("localName"));
-				pst.setInt(2, Integer.parseInt(request.getParameter("localGoals")));
-				pst.setString(3, request.getParameter("visitorName"));
-				pst.setInt(4, Integer.parseInt(request.getParameter("visitorGoals")));
-
-				pst.executeUpdate();
-				String redirectURL = "show.jsp?type=matches";
-				response.sendRedirect(redirectURL);
+				FootballMatch match=new FootballMatch(request.getParameter("localName"),request.getParameter("visitoName"),Integer.parseInt(request.getParameter("localGoals")),Integer.parseInt(request.getParameter("visitorGoals")));
+				
+			
 			} else {
 	%>
 	<form action="insert.jsp" method="get">
