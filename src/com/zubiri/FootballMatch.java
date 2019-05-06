@@ -57,17 +57,5 @@ public class FootballMatch {
 		
 	}
 	
-	public int insertMatch(String local_name,String visitor_name,int local_goals, int visitor_goals) throws SQLException, ClassNotFoundException {
-Connect.startConnection();
-		
-		PreparedStatement pst;
-		pst = Connect.conn.prepareStatement("insert into matches(local_team,local_goals,visitor_team,visitor_goals) values(?,?,?,?)");
 
-		pst.setString(1, local_name);
-		pst.setInt(2,local_goals );
-		pst.setString(3,visitor_name);
-		pst.setInt(4,visitor_goals);
-		return pst.executeUpdate();
-		
-	}
 }

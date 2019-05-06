@@ -39,18 +39,7 @@ public class Player {
 		this.team=team;
 	}
 	
-	public int insertPlayer(String name,int age,String team) throws ClassNotFoundException, SQLException {
-		Connect.startConnection();
-		
-		PreparedStatement pst;
-		pst = Connect.conn.prepareStatement("insert into players values(?,?,?)");
-
-		pst.setString(1, name);
-		pst.setInt(2,age );
-		pst.setString(3,team );
-		return pst.executeUpdate();
-		
-	}
+	
 	
 }
 

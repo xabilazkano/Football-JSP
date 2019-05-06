@@ -1,7 +1,5 @@
 package com.zubiri;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class Team {
 
@@ -32,15 +30,6 @@ public class Team {
 
 	
 
-	public int insertTeam(String name, String coach) throws SQLException, ClassNotFoundException {
-		Connect.startConnection();
-
-		PreparedStatement pst;
-		pst = Connect.conn.prepareStatement("insert into teams values(?,?)");
-
-		pst.setString(1, name);
-		pst.setString(2, coach);
-		return pst.executeUpdate();
-	}
+	
 
 }

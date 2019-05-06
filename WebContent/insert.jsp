@@ -10,20 +10,26 @@
 </head>
 <body>
 	<%
-	
+		Connect connect = new Connect();
+		connect.startConnection();
 
 		if (request.getParameter("type").equals("players")) {
 			if (request.getParameter("submit") != null) {
-				Player player = new Player(request.getParameter("playerName"),Integer.parseInt(request.getParameter("age")),request.getParameter("team"));
-				
-				if (player.insertPlayer(player.getName(), player.getAge(), player.getTeam())>0){
-					String name= player.getName();
-				%>
-				The player <%=name%> was correctly added.<br><br>
-				<a href="show.jsp?type=players">Show players list</a>
-				
-				<%
-				}
+				Player player = new Player(request.getParameter("playerName"),
+						Integer.parseInt(request.getParameter("age")), request.getParameter("team"));
+
+				if (connect.insertPlayer(player.getName(), player.getAge(), player.getTeam()) > 0) {
+					String name = player.getName();
+	%>
+	The player
+	<%=name%>
+	was correctly added.
+	<br>
+	<br>
+	<a href="show.jsp?type=players">Show players list</a>
+
+	<%
+		}
 			} else {
 	%>
 	<form action="insert.jsp" method="get">
@@ -34,22 +40,26 @@
 			type="submit" value="Insert" name="submit"><br>
 
 	</form>
-	
 
-	
+
+
 	<%
 		}
 		} else if (request.getParameter("type").equals("teams")) {
 			if (request.getParameter("submit") != null) {
-				Team team= new Team(request.getParameter("name"),request.getParameter("coach"));
-				String teamName=team.getName();
-				if (team.insertTeam(team.getName(),team.getCoach())>0){
-					%>
-					The team <%=teamName %> was correctly added.<br><br>
-					<a href="show.jsp?type=teams">Show teams list</a>
-					<%
-				}
-			
+				Team team = new Team(request.getParameter("teamName"), request.getParameter("coach"));
+				String teamName = team.getName();
+				if (connect.insertTeam(team.getName(), team.getCoach()) > 0) {
+	%>
+	The team
+	<%=teamName%>
+	was correctly added.
+	<br>
+	<br>
+	<a href="show.jsp?type=teams">Show teams list</a>
+	<%
+		}
+
 			} else {
 	%>
 	<form action="insert.jsp" method="get">
@@ -63,9 +73,25 @@
 		}
 		} else if (request.getParameter("type").equals("matches")) {
 			if (request.getParameter("submit") != null) {
-				FootballMatch match=new FootballMatch(request.getParameter("localName"),request.getParameter("visitoName"),Integer.parseInt(request.getParameter("localGoals")),Integer.parseInt(request.getParameter("visitorGoals")));
-				
-			
+				FootballMatch match = new FootballMatch(request.getParameter("localName"),
+						request.getParameter("visitorName"), Integer.parseInt(request.getParameter("localGoals")),
+						Integer.parseInt(request.getParameter("visitorGoals")));
+				String local_team = match.getEquipoLocal();
+				String visitor_team = match.getEquipoVisitante();
+				if (connect.insertMatch(match.getEquipoLocal(), match.getEquipoVisitante(), match.getGolesLocal(),
+						match.getGolesVisitante()) > 0) {
+	%>
+	The match between
+	<%=local_team%>
+	and
+	<%=visitor_team%>
+	was correctly added.
+	<br>
+	<br>
+	<a href="show.jsp?type=matches">Show matches list</a>
+	<%
+		}
+
 			} else {
 	%>
 	<form action="insert.jsp" method="get">

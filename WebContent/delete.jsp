@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
+<%@page import="com.zubiri.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,49 +10,47 @@
 </head>
 <body>
 	<%
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		String oracleURL = "jdbc:mysql://localhost/football?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-
-		Connection conn = DriverManager.getConnection(oracleURL, "dw18", "dw18");
-
+		Connect connect = new Connect();
+		connect.startConnection();
 		if (request.getParameter("type").equals("players")) {
-			PreparedStatement pst;
 
-			pst = conn.prepareStatement("delete from players where name=?;");
-
-			pst.setString(1, request.getParameter("name"));
-
-			pst.executeUpdate();
-
-			String redirectURL = "show.jsp?type=players";
-			response.sendRedirect(redirectURL);
+			String name = request.getParameter("name");
+			if (connect.deletePlayer(name) > 0) {
+	%>
+	The player
+	<%=name%>
+	was correctly deleted
+	<br>
+	<br>
+	<a href="show.jsp?type=players">Show players list </a>
+	<%
 		}
 
-		else if (request.getParameter("type").equals("teams")) {
-			PreparedStatement pst;
+		} else if (request.getParameter("type").equals("teams")) {
+			String team_name = request.getParameter("name");
+			if (connect.deleteTeam(team_name) > 0) {
+	%>
+	The team
+	<%=team_name%>
+	was correctly deleted
+	<br>
+	<br>
+	<a href="show.jsp?type=teams">Show teams list</a>
+	<%
+		}
 
-			pst = conn.prepareStatement("delete from teams where team_name=?;");
-
-			pst.setString(1, request.getParameter("name"));
-
-			pst.executeUpdate();
-
-			String redirectURL = "show.jsp?type=teams";
-			response.sendRedirect(redirectURL);
 		}
 
 		else if (request.getParameter("type").equals("matches")) {
-			PreparedStatement pst;
+			if (connect.deleteMatch(Integer.parseInt(request.getParameter("id"))) > 0) {
+	%>
+	The match was correctly deleted
+	<br>
+	<br>
+	<a href="show.jsp?type=matches">Show matches list</a>
+	<%
+		}
 
-			pst = conn.prepareStatement("delete from matches where id=?;");
-
-			pst.setString(1, request.getParameter("id"));
-
-			pst.executeUpdate();
-
-			String redirectURL = "show.jsp?type=matches";
-			response.sendRedirect(redirectURL);
 		}
 	%>
 </body>
