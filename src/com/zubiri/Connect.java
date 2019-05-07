@@ -54,7 +54,7 @@ public class Connect {
 	public int deletePlayer(String playerName) throws SQLException {
 		PreparedStatement pst;
 
-		pst = conn.prepareStatement("delete from players where name=?;");
+		pst =  conn.prepareStatement("delete from players where name=?;");
 
 		pst.setString(1, playerName);
 
