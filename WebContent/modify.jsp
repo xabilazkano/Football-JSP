@@ -16,8 +16,8 @@
 			String old_name = "";
 			if (request.getParameter("submit") != null) {
 				String name = request.getParameter("playerName");
-				if (connect.modifyPlayer(name, request.getParameter("age"), request.getParameter("team"),
-						request.getParameter("name")) > 0) {
+				Player player = new Player(request.getParameter("playerName"),Integer.parseInt(request.getParameter("age")),request.getParameter("team"));
+				if (connect.modifyPlayer(player,request.getParameter("name"))>0) {
 	%>
 	The player
 	<%=name%>
@@ -48,8 +48,8 @@
 			if (request.getParameter("submit") != null) {
 
 				String team_name = request.getParameter("teamName");
-				if (connect.modifyTeam(request.getParameter("teamName"), request.getParameter("coach"),
-						request.getParameter("name")) > 0) {
+				Team team = new Team(request.getParameter("teamName"),request.getParameter("coach"));
+				if (connect.modifyTeam(team,request.getParameter("old_name")) > 0) {
 	%>
 	The team
 	<%=team_name%>
@@ -68,7 +68,7 @@
 	<form action="modify.jsp?type=teams" method="get">
 		Name <input type="text" name="teamName""><br> <br>
 		Coach <input type="text" name="coach""><br> <br> <input
-			type="hidden" name="name" value="<%=teamName%>"><br> <input
+			type="hidden" name="old_name" value="<%=teamName%>"><br> <input
 			type="hidden" name="type" value="teams"> <br> <input
 			type="submit" value="Modify" name="submit"><br>
 
@@ -78,9 +78,10 @@
 		} else if (request.getParameter("type").equals("matches")) {
 
 			if (request.getParameter("submit") != null) {
+				
+				FootballMatch match = new FootballMatch(Integer.parseInt(request.getParameter("localGoals")),Integer.parseInt(request.getParameter("visitorGoals")));
 
-				if (connect.modifyMatch(request.getParameter("localGoals"), request.getParameter("visitorGoals"),
-						request.getParameter("id")) > 0) {
+				if (connect.modifyMatch(match,Integer.parseInt(request.getParameter("id"))) > 0) {
 	%>
 	The match was succesfuly modified
 	<br>

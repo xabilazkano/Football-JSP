@@ -18,7 +18,7 @@
 				Player player = new Player(request.getParameter("playerName"),
 						Integer.parseInt(request.getParameter("age")), request.getParameter("team"));
 
-				if (connect.insertPlayer(player.getName(), player.getAge(), player.getTeam()) > 0) {
+				if (connect.insertPlayer(player) > 0) {
 					String name = player.getName();
 	%>
 	The player
@@ -49,7 +49,7 @@
 			if (request.getParameter("submit") != null) {
 				Team team = new Team(request.getParameter("teamName"), request.getParameter("coach"));
 				String teamName = team.getName();
-				if (connect.insertTeam(team.getName(), team.getCoach()) > 0) {
+				if (connect.insertTeam(team) > 0) {
 	%>
 	The team
 	<%=teamName%>
@@ -78,8 +78,7 @@
 						Integer.parseInt(request.getParameter("visitorGoals")));
 				String local_team = match.getEquipoLocal();
 				String visitor_team = match.getEquipoVisitante();
-				if (connect.insertMatch(match.getEquipoLocal(), match.getEquipoVisitante(), match.getGolesLocal(),
-						match.getGolesVisitante()) > 0) {
+				if (connect.insertMatch(match) > 0) {
 	%>
 	The match between
 	<%=local_team%>

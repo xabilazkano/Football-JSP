@@ -17,6 +17,12 @@ public class FootballMatch {
 		this.golesLocal=local_goals;
 		this.golesVisitante=visitor_goals;
 	}
+	
+	public FootballMatch(int local_goals,int visitor_goals) {
+		this.golesLocal=local_goals;
+		this.golesVisitante=visitor_goals;
+	}
+	
 	public String getEquipoLocal() {
 		return equipoLocal;
 	

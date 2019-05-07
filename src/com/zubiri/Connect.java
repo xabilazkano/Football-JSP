@@ -14,39 +14,39 @@ public class Connect {
 		conn = DriverManager.getConnection(oracleURL, "dw18", "dw18");
 	}
 
-	public int insertPlayer(String name, int age, String team) throws ClassNotFoundException, SQLException {
+	public int insertPlayer(Player player) throws ClassNotFoundException, SQLException {
 
 		PreparedStatement pst;
 		pst = conn.prepareStatement("insert into players values(?,?,?)");
 
-		pst.setString(1, name);
-		pst.setInt(2, age);
-		pst.setString(3, team);
+		pst.setString(1, player.getName());
+		pst.setInt(2, player.getAge());
+		pst.setString(3, player.getTeam());
 		return pst.executeUpdate();
 
 	}
 
-	public int insertTeam(String name, String coach) throws SQLException, ClassNotFoundException {
+	public int insertTeam(Team team) throws SQLException, ClassNotFoundException {
 
 		PreparedStatement pst;
 		pst = conn.prepareStatement("insert into teams values(?,?)");
 
-		pst.setString(1, name);
-		pst.setString(2, coach);
+		pst.setString(1, team.getName());
+		pst.setString(2, team.getCoach());
 		return pst.executeUpdate();
 	}
 
-	public int insertMatch(String local_name, String visitor_name, int local_goals, int visitor_goals)
+	public int insertMatch(FootballMatch match)
 			throws SQLException, ClassNotFoundException {
 
 		PreparedStatement pst;
 		pst = conn.prepareStatement(
 				"insert into matches(local_team,local_goals,visitor_team,visitor_goals) values(?,?,?,?)");
 
-		pst.setString(1, local_name);
-		pst.setInt(2, local_goals);
-		pst.setString(3, visitor_name);
-		pst.setInt(4, visitor_goals);
+		pst.setString(1, match.getEquipoLocal());
+		pst.setInt(2, match.getGolesLocal());
+		pst.setString(3, match.getEquipoVisitante());
+		pst.setInt(4, match.getGolesVisitante());
 		return pst.executeUpdate();
 
 	}
@@ -54,7 +54,7 @@ public class Connect {
 	public int deletePlayer(String playerName) throws SQLException {
 		PreparedStatement pst;
 
-		pst =  conn.prepareStatement("delete from players where name=?;");
+		pst = conn.prepareStatement("delete from players where name=?;");
 
 		pst.setString(1, playerName);
 
@@ -82,38 +82,38 @@ public class Connect {
 
 	}
 
-	public int modifyPlayer(String new_name, String age, String team, String name) throws SQLException {
+	public int modifyPlayer(Player player, String old_name) throws SQLException {
 		PreparedStatement pst;
 		pst = conn.prepareStatement("update players set name=?,age=?,team_name=? where name=?;");
 
-		pst.setString(1, new_name);
-		pst.setString(2, age);
-		pst.setString(3, team);
-		pst.setString(4, name);
+		pst.setString(1, player.getName());
+		pst.setInt(2, player.getAge());
+		pst.setString(3, player.getTeam());
+		pst.setString(4, old_name);
 
 		return pst.executeUpdate();
 	}
 
-	public int modifyTeam(String team_name, String coach, String old_name) throws SQLException {
+	public int modifyTeam(Team team,String old_name) throws SQLException {
 
 		PreparedStatement pst;
 		pst = conn.prepareStatement("update teams set team_name=?,coach=? where team_name=?;");
 
-		pst.setString(1, team_name);
-		pst.setString(2, coach);
+		pst.setString(1, team.getName());
+		pst.setString(2, team.getCoach());
 		pst.setString(3, old_name);
 
 		return pst.executeUpdate();
 	}
 
-	public int modifyMatch(String local_goals, String visitor_goals, String id) throws SQLException {
+	public int modifyMatch(FootballMatch match,int id) throws SQLException {
 
 		PreparedStatement pst;
 		pst = conn.prepareStatement("update matches set local_goals=?,visitor_goals=? where id=?;");
 
-		pst.setString(1, local_goals);
-		pst.setString(2, visitor_goals);
-		pst.setString(3, id);
+		pst.setInt(1, match.getGolesLocal());
+		pst.setInt(2, match.getGolesVisitante());
+		pst.setInt(3, id);
 
 		return pst.executeUpdate();
 	}
@@ -143,7 +143,7 @@ public class Connect {
 		}
 		return text;
 	}
-	
+
 	public String showMatches() throws SQLException {
 		PreparedStatement pst2 = conn.prepareStatement("select * from matches;");
 		ResultSet result = pst2.executeQuery();
