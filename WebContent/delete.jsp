@@ -7,51 +7,58 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Delete</title>
+<style>
+body {
+	text-align: center;
+}
+
+a {
+	color: #0645AD;
+}
+</style>
 </head>
 <body>
-	<%
-		Connect connect = new Connect();
-		connect.startConnection();
-		if (request.getParameter("type").equals("players")) {
+	<h3 style="font-weight: normal">
+		<%
+			Connect connect = new Connect();
+			connect.startConnection();
+			if (request.getParameter("type").equals("players")) {
 
-			String name = request.getParameter("name");
-			if (connect.deletePlayer(name) > 0) {
-	%>
-	The player
-	<%=name%>
-	was correctly deleted
-	<br>
-	<br>
-	<a href="show.jsp?type=players">Show players list </a>
-	<%
-		}
+				String name = request.getParameter("name");
+				if (connect.deletePlayer(name) > 0) {
+		%>
+		The player
+		<%=name%>
+		was correctly deleted <br> <br> <a
+			href="show.jsp?type=players">Show players list </a>
+		<%
+			}
 
-		} else if (request.getParameter("type").equals("teams")) {
-			String team_name = request.getParameter("name");
-			if (connect.deleteTeam(team_name) > 0) {
-	%>
-	The team
-	<%=team_name%>
-	was correctly deleted
-	<br>
-	<br>
-	<a href="show.jsp?type=teams">Show teams list</a>
-	<%
-		}
+			} else if (request.getParameter("type").equals("teams")) {
+				String team_name = request.getParameter("name");
+				if (connect.deleteTeam(team_name) > 0) {
+		%>
+		The team
+		<%=team_name%>
+		was correctly deleted <br> <br> <a
+			href="show.jsp?type=teams">Show teams list</a>
+		<%
+			}
 
-		}
+			}
 
-		else if (request.getParameter("type").equals("matches")) {
-			if (connect.deleteMatch(Integer.parseInt(request.getParameter("id"))) > 0) {
-	%>
-	The match was correctly deleted
-	<br>
-	<br>
-	<a href="show.jsp?type=matches">Show matches list</a>
-	<%
-		}
+			else if (request.getParameter("type").equals("matches")) {
+				if (connect.deleteMatch(Integer.parseInt(request.getParameter("id"))) > 0) {
+		%>
+		The match was correctly deleted <br> <br> <a
+			href="show.jsp?type=matches">Show matches list</a>
+		<%
+			}
 
-		}
-	%>
+			}
+		%>
+		<br> <br> <a href="Football.jsp">Go back to the main
+			page</a>
+	</h3>
 </body>
 </html>

@@ -126,8 +126,8 @@ public class Connect {
 		while (result.next()) {
 			text = text + result.getString(1) + "::" + result.getInt(2) + "::" + result.getString(3)
 					+ "  <a href='modify.jsp?name=" + result.getString(1)
-					+ "&type=players'>Modify</a>    <a href='delete.jsp?name=" + result.getString(1)
-					+ "&type=players'>Delete</a><br>";
+					+ "&type=players'>Modify</a>  &nbsp; &nbsp; <a href='delete.jsp?name=" + result.getString(1)
+					+ "&type=players'>Delete</a><br><br>";
 		}
 		return text;
 	}
@@ -138,8 +138,8 @@ public class Connect {
 		String text = "";
 		while (result.next()) {
 			text = text + result.getString(1) + "::" + result.getString(2) + "  <a href='modify.jsp?name="
-					+ result.getString(1) + "&type=teams'>Modify</a>    <a href='delete.jsp?name=" + result.getString(1)
-					+ "&type=teams'>Delete</a><br>";
+					+ result.getString(1) + "&type=teams'>Modify</a>  &nbsp; &nbsp;   <a href='delete.jsp?name=" + result.getString(1)
+					+ "&type=teams'>Delete</a><br><br>";
 		}
 		return text;
 	}
@@ -151,8 +151,8 @@ public class Connect {
 		while (result.next()) {
 			text = text + result.getString(2) + "::" + result.getInt(3) + "::" + result.getInt(5) + "::"
 					+ result.getString(4) + "  <a href='modify.jsp?name=" + result.getInt(1)
-					+ "&type=matches'>Modify</a>    <a href='delete.jsp?id=" + result.getInt(1)
-					+ "&type=matches'>Delete</a><br>";
+					+ "&type=matches'>Modify</a>   &nbsp; &nbsp;  <a href='delete.jsp?id=" + result.getInt(1)
+					+ "&type=matches'>Delete</a><br><br>";
 		}
 		return text;
 	}
